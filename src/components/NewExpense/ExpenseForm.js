@@ -21,19 +21,16 @@ const ExpenseForm = (props) => {
     const submitHandler = (event) => {
         event.preventDefault(); // prevent submission and page redirect
 
-        // When Form Submission event occurs,
-        // I can collect the form data (stored in state) into an object
-        // like below
+        // Collecting State data into an object
         const expenseData = {
             title: enteredTitle,
             amount: enteredAmount,
             date: new Date(enteredDate)
         }
 
-        console.log(expenseData);
+        // console.log(expenseData);
+        props.onSaveExpenseData(expenseData);
 
-        // Resetting the state values after logging the data 
-        // Due to two-way data binding (giving value=DATAFROMSTATE to each input element)
         setEnteredTitle('');
         setEnteredAmount('');
         setEnteredDate('');
