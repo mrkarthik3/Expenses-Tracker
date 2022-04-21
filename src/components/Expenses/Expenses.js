@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
-import ExpenseItem from './ExpenseItem';
 import './Expenses.css';
 import Card from '../UI/Card';
 import ExpensesFilter from './ExpensesFilter';
+import ExpensesList from './ExpensesList';
+import ExpensesChart from './ExpensesChart';
 
 function Expenses(props) {
     const [filteredYear, setFilteredYear] = useState('2020')
     const filterChangeHandler = selectedYear => {
-        console.log("In Expenses.js");
-        console.log(selectedYear);
-        // Lifted state value "selectedYear" from below component ExpensesFilter
-        // is being used to update state in this component. 
-        setFilteredYear(selectedYear);
+        setFilteredYear(selectedYear); // lifted up from below component and used for state update
     }
+    const filteredExpenses = props.items.filter((expense) => new Date(expense.date).getFullYear().toString() === filteredYear)
+
+
     return (
         <Card className="expenses">
-            {/*Generally two-way binding is done on normal html elements (Eg. input boxes)
-            But here since I'm doing that on a React Element/Component,
-            ExpensesFilter is a Custom Controlled Component*/}
             <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-            <ExpenseItem info={props.items[0]}></ExpenseItem>
-            <ExpenseItem info={props.items[1]}></ExpenseItem>
-            <ExpenseItem info={props.items[2]}></ExpenseItem>
-            <ExpenseItem info={props.items[3]}></ExpenseItem>
+            {/* {expensesContent} */}
+            <ExpensesChart expenses={filteredExpenses}/>
+            <ExpensesList items={filteredExpenses} />
         </Card>
     )
 }
